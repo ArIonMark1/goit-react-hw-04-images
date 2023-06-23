@@ -1,6 +1,6 @@
 import './App.scss';
 import { useState, useEffect } from 'react';
-import handleSearchHits from './apiService/search_api.js';
+import handleSearchHits from '../search_api.js';
 import controlPosition from './apiService/controlPosition';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -25,13 +25,13 @@ export default function App() {
   const [searchHits, setSearchHits] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isButton, setIsButton] = useState(false);
-  const PER_PAGE = 12;
+  const SIZE_PAGE = 12;
 
   useEffect(() => {
     if (searchRequest === '') {
       return;
     }
-    handleSearchHits(searchRequest, page, PER_PAGE)
+    handleSearchHits(searchRequest, page)
       .then(request => {
         if (request.total === 0) {
           return toast.error(
@@ -39,7 +39,7 @@ export default function App() {
             toastStyle
           );
         }
-        if (request.total > PER_PAGE) {
+        if (request.total > SIZE_PAGE) {
           setIsButton(true);
         }
         setSearchHits(searchHits => [...searchHits, ...request.hits]);

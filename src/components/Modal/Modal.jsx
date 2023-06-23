@@ -7,13 +7,12 @@ const modalRoot = document.getElementById('modal-root');
 // *****************************************************
 export default function Modal({ onClose, children }) {
   useEffect(() => {
-    window.addEventListener('keydown', evt => {
+    const handlePressButton = evt => {
       evt.code === 'Escape' && onClose();
-    });
+    };
+    window.addEventListener('keydown', handlePressButton);
     return () => {
-      window.removeEventListener('keydown', evt => {
-        evt.code === 'Escape' && onClose();
-      });
+      window.removeEventListener('keydown', handlePressButton);
     };
   }, [onClose]);
 
